@@ -14,11 +14,48 @@ public class HashTable {
 //  public String remove(String key){
 //	}
 //
-//  public Iterator keys() {
-//  }
+public interface Iterator {
+    Iterator keys(){
+        
+    } 
+
+    Public record default void forEachRemaining(Consumer< E> action){
+        System.out.println("foreachremaining called");
+        throw Error;
+    }
+
+    public record boolean hasNext(){
+
+    }  
+
+    public record E next(){
+        E element;
+    
+        return element;
+    }
+
+
+
+public default record void remove(){
+    
+
+
+}
+
+}//end iterator
 //
-//  public void print(){
-//	}
+  public void print(){
+    Iterator it =HashTable.iterator;
+    String s="";
+    while(it.hasNext()){
+        s+=it.next();
+    }
+    System.out.println(s);
+
+}
+
+
+//all starter code beyond this point
 	/**
 	 * Loads this HashTable from a file named "Lookup.dat".
 	 */
