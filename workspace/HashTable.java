@@ -14,12 +14,12 @@ public class HashTable {
 //  public String remove(String key){
 //	}
 //
-public interface Iterator {
+interface Iterator {
     Iterator keys(){
         
     } 
 
-    Public record default void forEachRemaining(Consumer< E> action){
+    public default void forEachRemaining(Consumer< E> action){
         System.out.println("foreachremaining called");
         throw Error;
     }
