@@ -5,45 +5,61 @@ public class HashTable {
 
 // Methods you have to supply:
 //
-//  public void put(String key) {
-//  }
+array[][] arr=new array[150][1];
+  public void put(String key) {
+    
+    int hashCode = key.hashCode();
+    int arrayIndex = Math.abs(hashCode) % tableSize;
+    if(arr[i]=null){
+        arr[i].add(key);
+    }    
+}
 //
-//  public String get(String key) {
-//  }
+  public String get(String key) {
+    int index=Math.abs(key.hashCode()) % tableSize;
+    for(int i:arr[index]){
+        if(arr[index][i]==key){
+            return key;
+        }
+    }
+}
 //
-//  public String remove(String key){
-//	}
-//
-interface Iterator {
-    Iterator keys(){
-        
-    } 
+  public String remove(String key){
 
-    public default void forEachRemaining(Consumer< E> action){
+
+}
+
+//public Iterator keys() {
+//  }
+    
+private interface Iterator {
+
+     default void forEachRemaining(Consumer< E> action){
         System.out.println("foreachremaining called");
         throw Error;
     }
 
-    public record boolean hasNext(){
+    default boolean hasNext(){
+        boolean b=false;
 
+        return b;
     }  
 
-    public record E next(){
+    default E next(){
         E element;
     
         return element;
     }
 
+    default void remove(){
+
+    }
+
+    }
+//end iterator
 
 
-public default record void remove(){
-    
-
-
-}
-
-}//end iterator
-//
+//prints the table ig
   public void print(){
     Iterator it =HashTable.iterator;
     String s="";
