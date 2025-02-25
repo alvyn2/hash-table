@@ -1,69 +1,119 @@
 import java.util.*;
+import java.util.function.Consumer;
 import java.io.*;
 
 public class HashTable {
 
 // Methods you have to supply:
 //
-array[][] arr=new array[150][1];
+
+   private String[][] arr=new String[150][3];
+    int fill=0;
   public void put(String key) {
     
     int hashCode = key.hashCode();
-    int arrayIndex = Math.abs(hashCode) % tableSize;
-    if(arr[i]=null){
-        arr[i].add(key);
+    int arrayIndex = Math.abs(hashCode) % 150;
+    if(arr[arrayIndex][0]==null){
+        arr[arrayIndex][0]=key;
+    }else{
+        int bucketIndex=0;
+        while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
+            bucketIndex++;
+        }
+        arr[arrayIndex][bucketIndex]=key;
+    }    
+}
+
+public void put(String key, String value) {
+    
+    int hashCode = key.hashCode();
+    int index=value.hashCode();
+    int arrayIndex = hashCode;
+
+    if(arr[arrayIndex][0]==null){
+        arr[arrayIndex][0]=key;
+    }else{
+        int bucketIndex=0;
+        while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
+            bucketIndex++;
+        }
+        arr[arrayIndex][bucketIndex]=key;
     }    
 }
 //
   public String get(String key) {
-    int index=Math.abs(key.hashCode()) % tableSize;
-    for(int i:arr[index]){
-        if(arr[index][i]==key){
+    int index=Math.abs(key.hashCode()) % 150;
+    for(String s:arr[index]){
+        if(s==key){
             return key;
         }
     }
+    return "";
 }
 //
   public String remove(String key){
-
+    int hashCode = key.hashCode();
+    int arrayIndex = Math.abs(hashCode) % 150;
+    if(arr[arrayIndex][0]==key){
+        arr[arrayIndex][0]=null;
+        return key;
+    }else{
+        int bucketIndex=0;
+        while(arr[arrayIndex][bucketIndex]!=key && bucketIndex<arr[arrayIndex].length){
+            bucketIndex++;
+        }
+        arr[arrayIndex][bucketIndex]=null;
+        return key;
+    }    
 
 }
 
-//public Iterator keys() {
-//  }
+public Iterator keys() {
+  Iterator r = new iterator<String>();
+    return r;
+}
     
-private interface Iterator {
+private class iterator<E> implements Iterator<String>{
+    int nextIndex=0;
+    int bucketIndex=0;
 
-     default void forEachRemaining(Consumer< E> action){
-        System.out.println("foreachremaining called");
-        throw Error;
-    }
 
-    default boolean hasNext(){
-        boolean b=false;
+     public boolean hasNext(){
+         while(nextIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
+            while(bucketIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
+                bucketIndex++;
+                }
+                nextIndex++;
+             }       
+             if(arr[nextIndex][bucketIndex]!=null){
+                return true;
+             }else{
+                return false;
+             }
 
-        return b;
+             
     }  
 
-    default E next(){
-        E element;
-    
-        return element;
-    }
+    public String next(){
+            String element="";
+            hasNext();
+            element=arr[nextIndex][bucketIndex];
+            return element;
+        }
 
-    default void remove(){
-
-    }
+     public void remove(){
+             arr[nextIndex]=null;
+         }
 
     }
 //end iterator
 
 
-//prints the table ig
+//prints the table to the console
   public void print(){
-    Iterator it =HashTable.iterator;
+    Iterator it =new iterator<String>();
     String s="";
-    while(it.hasNext()){
+    while(it.hasNext()==false){
         s+=it.next();
     }
     System.out.println(s);
