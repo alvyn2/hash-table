@@ -20,6 +20,7 @@ public class HashTable {
         while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
             bucketIndex++;
         }
+        System.out.println("bucket loop ended");
         arr[arrayIndex][bucketIndex]=key;
     }    
 }
@@ -37,6 +38,7 @@ public void put(String key, String value) {
         while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
             bucketIndex++;
         }
+        System.out.println("bucket loop ended");
         arr[arrayIndex][bucketIndex]=key;
     }    
 }
@@ -62,6 +64,8 @@ public void put(String key, String value) {
         while(arr[arrayIndex][bucketIndex]!=key && bucketIndex<arr[arrayIndex].length){
             bucketIndex++;
         }
+
+        System.out.println("bucket loop ended");
         arr[arrayIndex][bucketIndex]=null;
         return key;
     }    
@@ -80,11 +84,15 @@ private class iterator<E> implements Iterator<String>{
 
      public boolean hasNext(){
          while(nextIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
-            while(bucketIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
+            while(bucketIndex<arr[0].length-1 && arr[nextIndex][bucketIndex]==null){
                 bucketIndex++;
                 }
+             
+            System.out.println("inner loop ended");  
                 nextIndex++;
-             }       
+             }
+                  
+            System.out.println("outer while loop ended");  
              if(arr[nextIndex][bucketIndex]!=null){
                 return true;
              }else{
@@ -111,11 +119,12 @@ private class iterator<E> implements Iterator<String>{
 
 //prints the table to the console
   public void print(){
-    Iterator it =new iterator<String>();
+    Iterator<String> it =new iterator<String>();
     String s="";
-    while(it.hasNext()==false){
+    while(it.hasNext()){
         s+=it.next();
     }
+    System.out.println("print loop ended");  
     System.out.println(s);
 
 }
