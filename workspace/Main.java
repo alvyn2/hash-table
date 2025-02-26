@@ -6,6 +6,7 @@ public static void main(String[] args){
     h.put("word");
     h.put("mine");
 
+    System.out.println("print");
     h.print();
 
     System.out.println("end");

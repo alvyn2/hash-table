@@ -1,23 +1,27 @@
 import java.util.*;
-import java.util.function.Consumer;
 import java.io.*;
 
 public class HashTable {
 
 // Methods you have to supply:
 //
-
-   private String[][] arr=new String[150][3];
+    private int arrSize=150;
+   private String[][] arr=new String[arrSize][3];
     int fill=0;
+
+//
+//precondition:method is called
+//postcondition: the string is added to the array
   public void put(String key) {
     
     int hashCode = key.hashCode();
     int arrayIndex = Math.abs(hashCode) % 150;
+    System.out.println(key);
     if(arr[arrayIndex][0]==null){
         arr[arrayIndex][0]=key;
     }else{
         int bucketIndex=0;
-        while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
+        while(arr[arrayIndex][bucketIndex]!=null&& bucketIndex<arr[arrayIndex].length){
             bucketIndex++;
         }
         System.out.println("bucket loop ended");
@@ -25,22 +29,36 @@ public class HashTable {
     }    
 }
 
+//precondition:method is called
+//postcondition: the string is added to the array at the hashcode value
+//could use value but this is unnecessary becasuese collisions are handled with buckets not movement to a different index
 public void put(String key, String value) {
     
     int hashCode = key.hashCode();
-    int index=value.hashCode();
-    int arrayIndex = hashCode;
+    int arrayIndex = 0;
 
+    arrayIndex=hashCode % 150;
     if(arr[arrayIndex][0]==null){
         arr[arrayIndex][0]=key;
     }else{
         int bucketIndex=0;
-        while(arr[arrayIndex][bucketIndex]==null&& bucketIndex<arr[arrayIndex].length){
+        while(arr[arrayIndex][bucketIndex]!=null && bucketIndex<arr[arrayIndex].length){
             bucketIndex++;
         }
         System.out.println("bucket loop ended");
         arr[arrayIndex][bucketIndex]=key;
-    }    
+
+
+    }
+    /*Iterator<String> sizechecker =keys();
+    fill=0;
+    while(sizechecker.hasNext()){
+        fill++;
+    }
+    if(fill>=(arr.length*2/3)){
+
+    }
+    */
 }
 //
   public String get(String key) {
@@ -73,7 +91,7 @@ public void put(String key, String value) {
 }
 
 public Iterator keys() {
-  Iterator r = new iterator<String>();
+  Iterator<String> r = new iterator<String>();
     return r;
 }
     
@@ -86,11 +104,11 @@ private class iterator<E> implements Iterator<String>{
          while(nextIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
             while(bucketIndex<arr[0].length-1 && arr[nextIndex][bucketIndex]==null){
                 bucketIndex++;
-                }
-             
-            System.out.println("inner loop ended");  
+                
+            }//System.out.println("inner loop ended");  
                 nextIndex++;
-             }
+                bucketIndex=0;
+        }
                   
             System.out.println("outer while loop ended");  
              if(arr[nextIndex][bucketIndex]!=null){
@@ -104,7 +122,6 @@ private class iterator<E> implements Iterator<String>{
 
     public String next(){
             String element="";
-            hasNext();
             element=arr[nextIndex][bucketIndex];
             return element;
         }
@@ -122,7 +139,10 @@ private class iterator<E> implements Iterator<String>{
     Iterator<String> it =new iterator<String>();
     String s="";
     while(it.hasNext()){
-        s+=it.next();
+        String curr=it.next();
+        System.out.println("o"+curr);
+        s+=curr;
+        //System.out.println(it.next());
     }
     System.out.println("print loop ended");  
     System.out.println(s);
