@@ -102,7 +102,7 @@ private class iterator<E> implements Iterator<String>{
 
      public boolean hasNext(){
          while(nextIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
-            while(bucketIndex<arr[0].length-1 && arr[nextIndex][bucketIndex]==null){
+            while(bucketIndex<arr[nextIndex].length-1 && arr[nextIndex][bucketIndex]==null){
                 bucketIndex++;
                 
             }//System.out.println("inner loop ended");  
@@ -140,9 +140,10 @@ private class iterator<E> implements Iterator<String>{
     String s="";
     while(it.hasNext()){
         String curr=it.next();
-        System.out.println("o"+curr);
+        System.out.println(curr);
         s+=curr;
         //System.out.println(it.next());
+        it.hasNext();
     }
     System.out.println("print loop ended");  
     System.out.println(s);
