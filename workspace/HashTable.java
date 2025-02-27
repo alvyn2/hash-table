@@ -6,7 +6,7 @@ public class HashTable {
 // Methods you have to supply:
 //
     private int arrSize=150;
-   private String[][] arr=new String[arrSize][3];
+   private String[][] arr=new String[arrSize][5];
     int fill=0;
 
 //
@@ -15,8 +15,8 @@ public class HashTable {
   public void put(String key) {
     
     int hashCode = key.hashCode();
-    int arrayIndex = Math.abs(hashCode) % 150;
-    System.out.println(key);
+    int arrayIndex = Math.abs(hashCode) % arrSize;
+    //System.out.println(key);
     if(arr[arrayIndex][0]==null){
         arr[arrayIndex][0]=key;
     }else{
@@ -26,7 +26,38 @@ public class HashTable {
         }
         System.out.println("bucket loop ended");
         arr[arrayIndex][bucketIndex]=key;
-    }    
+    }   
+    Iterator<String> sizechecker =keys();
+    fill=0;
+    while(sizechecker.hasNext()){
+        fill++;
+    }
+    if(fill>=(arr.length*2/3)){
+        String[][] newArr = new String[arrSize*2][5];
+        arrSize*=2;
+        String[][] temp = arr;
+        arr=newArr;
+        for(int i=0;i<temp.length-1;i++){
+            for(int j=0;j<temp[i].length-1;j++){
+                // copied code to put each String in its new index in the resized array
+                hashCode = key.hashCode();
+                arrayIndex = Math.abs(hashCode) % arrSize;
+                if(arr[arrayIndex][0]==null){
+                    arr[arrayIndex][0]=key;
+                }else{
+                    int bucketIndex=0;
+                    while(arr[arrayIndex][bucketIndex]!=null&& bucketIndex<arr[arrayIndex].length){
+                        bucketIndex++;
+                    }
+                    System.out.println("bucket loop ended");
+                    arr[arrayIndex][bucketIndex]=key;
+                }   
+            }
+
+        }
+    }
+    
+
 }
 
 //precondition:method is called
@@ -50,7 +81,7 @@ public void put(String key, String value) {
 
 
     }
-    /*Iterator<String> sizechecker =keys();
+    Iterator<String> sizechecker =keys();
     fill=0;
     while(sizechecker.hasNext()){
         fill++;
@@ -58,7 +89,7 @@ public void put(String key, String value) {
     if(fill>=(arr.length*2/3)){
 
     }
-    */
+    
 }
 //
   public String get(String key) {
@@ -74,18 +105,21 @@ public void put(String key, String value) {
   public String remove(String key){
     int hashCode = key.hashCode();
     int arrayIndex = Math.abs(hashCode) % 150;
+    String d=null;
     if(arr[arrayIndex][0]==key){
+        d=arr[arrayIndex][0];
         arr[arrayIndex][0]=null;
-        return key;
+        return d;
     }else{
         int bucketIndex=0;
-        while(arr[arrayIndex][bucketIndex]!=key && bucketIndex<arr[arrayIndex].length){
+        while(arr[arrayIndex][bucketIndex]!=key && bucketIndex<arr[arrayIndex].length-1){
             bucketIndex++;
         }
 
         System.out.println("bucket loop ended");
+        d=arr[arrayIndex][bucketIndex];
         arr[arrayIndex][bucketIndex]=null;
-        return key;
+        return d;
     }    
 
 }
@@ -100,6 +134,7 @@ private class iterator<E> implements Iterator<String>{
     int bucketIndex=0;
 
 
+//checks if there is an 
      public boolean hasNext(){
          while(nextIndex<arr.length-1 && arr[nextIndex][bucketIndex]==null){
             while(bucketIndex<arr[nextIndex].length-1 && arr[nextIndex][bucketIndex]==null){
@@ -109,9 +144,11 @@ private class iterator<E> implements Iterator<String>{
                 nextIndex++;
                 bucketIndex=0;
         }
-                  
-            System.out.println("outer while loop ended");  
+           // System.out.println(nextIndex);
+            //System.out.println(bucketIndex);
+            //System.out.println("outer while loop ended");  
              if(arr[nextIndex][bucketIndex]!=null){
+                nextIndex++;
                 return true;
              }else{
                 return false;
@@ -122,7 +159,7 @@ private class iterator<E> implements Iterator<String>{
 
     public String next(){
             String element="";
-            element=arr[nextIndex][bucketIndex];
+            element=arr[nextIndex-1][bucketIndex];
             return element;
         }
 
@@ -136,17 +173,17 @@ private class iterator<E> implements Iterator<String>{
 
 //prints the table to the console
   public void print(){
-    Iterator<String> it =new iterator<String>();
-    String s="";
+    Iterator<String> it =keys();
+    //String s="";
     while(it.hasNext()){
         String curr=it.next();
         System.out.println(curr);
-        s+=curr;
+        //s+=curr;
         //System.out.println(it.next());
-        it.hasNext();
+        //it.hasNext();
     }
     System.out.println("print loop ended");  
-    System.out.println(s);
+    //System.out.println(s);
 
 }
 
